@@ -1,5 +1,5 @@
 import { getRepository } from 'typeorm';
-import { compare } from 'bcryptjs';
+import { compare, hash } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 
 import User from '../models/User';
@@ -24,6 +24,8 @@ class AuthenticateUserService {
     const user = await usersRepository.findOne({
        where: { email } 
     });
+
+    // console.log(await hash(password, 8));
 
     if(!user){
       throw new AppError('Incorret email/password combination.', 401);
